@@ -2,10 +2,11 @@
 
 namespace Laravel\Scout\Tests;
 
+use Countable;
 use Illuminate\Database\Eloquent\Builder;
 use Laravel\Scout\Tests\Fixtures\SearchableModel;
 use Mockery as m;
-use PHPUnit\Framework\TestCase;
+use Orchestra\Testbench\TestCase;
 
 class SearchableTest extends TestCase
 {
@@ -16,8 +17,9 @@ class SearchableTest extends TestCase
 
     public function test_searchable_using_update_is_called_on_collection()
     {
-        $collection = m::mock();
+        $collection = m::mock(Countable::class);
         $collection->shouldReceive('isEmpty')->andReturn(false);
+        $collection->shouldReceive('count')->andReturn(1);
         $collection->shouldReceive('first->searchableUsing->update')->with($collection);
 
         $model = new SearchableModel();
@@ -36,8 +38,9 @@ class SearchableTest extends TestCase
 
     public function test_searchable_using_delete_is_called_on_collection()
     {
-        $collection = m::mock();
+        $collection = m::mock(Countable::class);
         $collection->shouldReceive('isEmpty')->andReturn(false);
+        $collection->shouldReceive('count')->andReturn(1);
         $collection->shouldReceive('first->searchableUsing->delete')->with($collection);
 
         $model = new SearchableModel;
